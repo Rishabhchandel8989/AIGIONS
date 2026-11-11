@@ -5,8 +5,15 @@ Real-time artifact inference, SHAP explanations, batch cohort auditing, and ethi
 """
 
 import os
-os.environ["MPLCONFIGDIR"] = os.path.abspath(".mpl_cache")
-os.makedirs(".mpl_cache", exist_ok=True)
+import sys
+
+# Ensure project root is in sys.path when running from app/ subfolder
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
+os.environ["MPLCONFIGDIR"] = os.path.join(PROJECT_ROOT, ".mpl_cache")
+os.makedirs(os.path.join(PROJECT_ROOT, ".mpl_cache"), exist_ok=True)
 import json
 import streamlit as st
 import pandas as pd
@@ -77,7 +84,7 @@ st.markdown("""
 
 @st.cache_resource
 def load_explainer_engine():
-    return ModelExplainer(artifacts_dir="artifacts")
+    return ModelExplainer(artifacts_dir=os.path.join(PROJECT_ROOT, "artifacts"))
 
 
 try:
@@ -254,7 +261,7 @@ with tab_batch:
         else:
             cohort_df = None
     else:
-        test_csv_path = "data/processed/test.csv"
+        test_csv_path = os.path.join(PROJECT_ROOT, "data", "processed", "test.csv")
         if os.path.exists(test_csv_path):
             cohort_df = pd.read_csv(test_csv_path)
         else:
@@ -306,7 +313,7 @@ with tab_batch:
 with tab_audit:
     st.subheader("Model Governance, Comparative Benchmarks & Limitations")
 
-    metrics_file = "artifacts/metrics_summary.json"
+    metrics_file = os.path.join(PROJECT_ROOT, "artifacts", "metrics_summary.json")
     if os.path.exists(metrics_file):
         with open(metrics_file, "r") as f:
             metrics_summary = json.load(f)
@@ -333,17 +340,22 @@ with tab_audit:
     st.markdown("##### Analytical Diagnostic Visualizations")
     col_img1, col_img2 = st.columns(2)
 
+    roc_pr_path = os.path.join(PROJECT_ROOT, "artifacts", "figures", "roc_pr_curves.png")
+    cm_path = os.path.join(PROJECT_ROOT, "artifacts", "figures", "confusion_matrices.png")
+    shap_path = os.path.join(PROJECT_ROOT, "artifacts", "figures", "shap_summary.png")
+    thresh_path = os.path.join(PROJECT_ROOT, "artifacts", "figures", "threshold_tradeoff.png")
+
     with col_img1:
-        if os.path.exists("artifacts/figures/roc_pr_curves.png"):
-            st.image("artifacts/figures/roc_pr_curves.png", caption="ROC & Precision-Recall Curves")
-        if os.path.exists("artifacts/figures/confusion_matrices.png"):
-            st.image("artifacts/figures/confusion_matrices.png", caption="Comparative Confusion Matrices")
+        if os.path.exists(roc_pr_path):
+            st.image(roc_pr_path, caption="ROC & Precision-Recall Curves")
+        if os.path.exists(cm_path):
+            st.image(cm_path, caption="Comparative Confusion Matrices")
 
     with col_img2:
-        if os.path.exists("artifacts/figures/shap_summary.png"):
-            st.image("artifacts/figures/shap_summary.png", caption="Global SHAP Feature Importance & Impact")
-        if os.path.exists("artifacts/figures/threshold_tradeoff.png"):
-            st.image("artifacts/figures/threshold_tradeoff.png", caption="Threshold vs Precision-Recall Trade-off")
+        if os.path.exists(shap_path):
+            st.image(shap_path, caption="Global SHAP Feature Importance & Impact")
+        if os.path.exists(thresh_path):
+            st.image(thresh_path, caption="Threshold vs Precision-Recall Trade-off")
 
     st.markdown("---")
     st.markdown("##### 🛡️ Ethical Principles, Data Privacy & Known Limitations")
