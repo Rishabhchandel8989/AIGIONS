@@ -1,0 +1,62 @@
+{
+    "summary": {
+        "total_test_samples": 890,
+        "false_negatives_count": 40,
+        "false_positives_count": 81,
+        "fn_rate": 0.1404
+    },
+    "false_negative_deep_dive": {
+        "archetype": "Deceptive Borderline Student",
+        "explanation": "Students whose early indicators (Quiz 1, early attendance) appeared acceptable, but who experienced steep disengagement in weeks 6-8 or catastrophic final exam drops. Because the model strictly avoids future leakage, sudden unmeasured shocks post-Week 8 cannot be foreseen.",
+        "sample_record": {
+            "student_id": "STU-10553",
+            "cohort_term": "Cohort_2025_Spring",
+            "attendance_rate_w1_w4": 84.5,
+            "attendance_rate_w5_w8": 94.1,
+            "assignments_submitted_ratio": 0.971,
+            "avg_assignment_delay_days": 1.6,
+            "quiz_1_score": 71.6,
+            "quiz_2_score": 54.4,
+            "midterm_exam_score": 54.7,
+            "lms_login_frequency_per_week": 11.1,
+            "lms_resource_views": 47.0,
+            "discussion_forum_posts": 5,
+            "cumulative_gpa_prior": 2.18,
+            "course_credits_enrolled": 15,
+            "study_group_participation": 0,
+            "final_score": 49.7,
+            "is_at_risk": 1,
+            "predicted_prob": 0.010620918255972993,
+            "predicted_label": 0
+        },
+        "business_cost": "High - Struggling student fails without receiving intervention outreach.",
+        "mitigation": "Lower the operational advisory threshold to 0.35-0.40 to capture borderline cases."
+    },
+    "false_positive_deep_dive": {
+        "archetype": "Late Recovery Student",
+        "explanation": "Students who exhibited weak mid-term signals (e.g. low Quiz 2 or delayed assignments) but subsequently recovered during the second half of the semester through unrecorded private tutoring or intense revision.",
+        "sample_record": {
+            "student_id": "STU-10082",
+            "cohort_term": "Cohort_2025_Spring",
+            "attendance_rate_w1_w4": 52.7,
+            "attendance_rate_w5_w8": 38.3,
+            "assignments_submitted_ratio": 0.61,
+            "avg_assignment_delay_days": 14.0,
+            "quiz_1_score": 53.5,
+            "quiz_2_score": 49.9,
+            "midterm_exam_score": 45.8,
+            "lms_login_frequency_per_week": 1.0,
+            "lms_resource_views": 24.0,
+            "discussion_forum_posts": 0,
+            "cumulative_gpa_prior": 2.54,
+            "course_credits_enrolled": 15,
+            "study_group_participation": 0,
+            "final_score": 53.0,
+            "is_at_risk": 0,
+            "predicted_prob": 0.9827865145979473,
+            "predicted_label": 1
+        },
+        "business_cost": "Low - Student receives an optional supportive mentoring invitation. Non-punitive.",
+        "mitigation": "Advisors provide gentle check-ins rather than mandatory remediation."
+    }
+}

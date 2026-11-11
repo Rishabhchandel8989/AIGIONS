@@ -1,0 +1,57 @@
+{
+    "dataset_shape": [
+        3500,
+        17
+    ],
+    "total_students": 3500,
+    "at_risk_count": 847,
+    "at_risk_percentage": 24.2,
+    "duplicate_student_ids": 0,
+    "missing_values_detected": {},
+    "ethical_compliance_audit": {
+        "prohibited_attributes_checked": [
+            "gender",
+            "sex",
+            "race",
+            "ethnicity",
+            "religion",
+            "caste",
+            "income",
+            "zipcode",
+            "disability"
+        ],
+        "detected_prohibited_attributes": [],
+        "compliant": true
+    },
+    "temporal_leakage_audit": {
+        "prediction_point": "Week 8 (Mid-term cut-off)",
+        "target_horizon": "Week 16 (Final outcome)",
+        "highest_feature_target_correlation": {
+            "feature": "midterm_exam_score",
+            "correlation": 0.5552
+        },
+        "leakage_risk_detected": false
+    },
+    "cohort_breakdown": {
+        "Cohort_2023_Fall": {
+            "total_students": 901,
+            "at_risk_count": 205,
+            "at_risk_rate": 0.22752497225305215
+        },
+        "Cohort_2024_Fall": {
+            "total_students": 846,
+            "at_risk_count": 212,
+            "at_risk_rate": 0.25059101654846333
+        },
+        "Cohort_2024_Spring": {
+            "total_students": 863,
+            "at_risk_count": 226,
+            "at_risk_rate": 0.26187717265353416
+        },
+        "Cohort_2025_Spring": {
+            "total_students": 890,
+            "at_risk_count": 204,
+            "at_risk_rate": 0.2292134831460674
+        }
+    }
+}
